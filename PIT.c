@@ -27,15 +27,14 @@ void PIT_clock_gating(void)
 uint8_t PIT_get_interrupt_flag_status(void)
 {
 	uint8_t flag;
-	/*PIT->CHANNEL[0]->TFLG |= PIT_TFLG_TIF_MASK;*/
+	PIT->CHANNEL[0]->TFLG |= PIT_TFLG_TIF_MASK;
 }
 
 void PIT_clear_interrupt_flag(void)
 {
 	/*It clear the flag*/
-	uint8_t g_pit_intr_flag = 0;
-	PIT->CHANNEL->TFLG |= PIT_TFLG_TIF_MASK;
-
+	PIT->CHANNEL[0].TFLG |= PIT_TFLG_TIF_MASK;
+	flag = PIT->CHANNEL[0].TCTRL;
 
 }
 
@@ -47,9 +46,9 @@ void PIT_enable(void)
 
 void PIT_enable_interrupt(PIT_timer_t pit)
 {
-	/*It clear the flag*/
+	/*Clears the flag*/
 	PIT->CHANNEL[pit].TFLG |= PIT_TFLG_TIF_MASK;
-	/*enables the interruption*/
+	/*Enables the interrupt*/
 	PIT->CHANNEL[pit].TCTRL |= PIT_TCTRL_TIE_MASK;
 }
 
