@@ -2,7 +2,9 @@
 
 #include "MK64F12.h"
 #include "PIT.h"
-#include "Bits.h"
+#include "bits.h"
+
+static uint8_t g_pit_intr_flag = 0;
 
 void PIT_delay(PIT_timer_t pit_timer, My_float_pit_t system_clock , My_float_pit_t delay)
 {
@@ -24,12 +26,16 @@ uint8_t PIT_get_interrupt_flag_status(void)
 	PIT->CHANNEL[0]->TFLG |= PIT_TFLG_TIF_MASK;
 }
 
-void PIT_clear_interrupt_flag(void);
+void PIT_clear_interrupt_flag(void)
+{
+
+}
 
 void PIT_enable(void)
 {
 	//enables the PIT//
-	PIT->MCR = PIT_MCR_FRZ_SHIFT;
+	PIT->MCR |= PIT_MCR_FRZ_SHIFT;
+	PIT->MCR &= ~PIT_MCR_FRZ_SHIFT;
 }
 
 void PIT_enable_interrupt(PIT_timer_t pit)
